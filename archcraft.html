@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimización de Wine para Atinad y Warcraft III en Archcraft</title>
+    <title>Terminal Guías - Archcraft</title>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --container-bg: #161b22;
-            --text-color: #c9d1d9;
-            --text-muted: #8b949e;
-            --accent-color: #58a6ff;
-            --border-color: #30363d;
-            --code-bg: #010409;
-            --note-bg: rgba(56, 139, 253, 0.1);
-            --note-border: #388bfd;
+            --bg-color: #05070b;
+            --container-bg: #0b0e14;
+            --text-color: #abb2bf;
+            --text-muted: #5c6370;
+            --border-color: #1e2430;
+            --code-bg: #020408;
+            
+            /* Colores inspirados en la imagen 813087-3975944850.jpg */
+            --cmd-red: #ff4a5a;
+            --cmd-yellow: #ffb454;
+            --cmd-green: #2ecc71;
+            --cmd-blue: #52adf2;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace, -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
@@ -27,26 +30,26 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 40px auto;
             background-color: var(--container-bg);
-            padding: 30px;
-            border-radius: 6px;
+            padding: 35px;
+            border-radius: 8px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.7);
         }
 
         h1 {
-            font-size: 1.8rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            color: #ffffff;
+            font-size: 1.7rem;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 12px;
+            color: var(--cmd-red);
         }
 
         h2 {
-            font-size: 1.3rem;
-            color: #ffffff;
-            margin-top: 30px;
+            font-size: 1.25rem;
+            color: var(--cmd-yellow);
+            margin-top: 35px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -54,236 +57,95 @@
 
         p {
             margin: 10px 0;
+            font-size: 15px;
+            color: #dcdcdc;
+        }
+
+        .step-num {
+            background: var(--cmd-red);
+            color: var(--bg-color);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-weight: bold;
+            font-size: 13px;
+            margin-right: 10px;
         }
 
         code {
-            font-family: ui-monospace, SFMono-Regular, SF Pro Mono, Menlo, Monaco, Consolas, monospace;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             background-color: var(--code-bg);
             padding: 3px 6px;
             border-radius: 4px;
-            font-size: 85%;
-            color: #ff7b72;
+            font-size: 90%;
+            color: var(--cmd-yellow);
+            border: 1px solid rgba(255,180,84,0.2);
         }
 
         pre {
             background-color: var(--code-bg);
-            padding: 16px;
+            padding: 18px;
             border-radius: 6px;
             overflow-x: auto;
-            border: 1px solid var(--border-color);
+            border: 1px solid #141923;
             margin: 15px 0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
         }
 
         pre code {
             background-color: transparent;
             padding: 0;
-            font-size: 90%;
-            color: #79c0ff;
+            font-size: 95%;
+            color: #ffffff;
+            border: none;
         }
 
+        /* Clases para simular el resaltado de código del editor */
+        .c-sudo { color: var(--cmd-red); font-weight: bold; }
+        .c-pkg { color: var(--cmd-yellow); }
+        .c-param { color: var(--cmd-blue); }
+        .c-env { color: var(--cmd-green); }
+        .c-url { color: #52adf2; text-decoration: underline; }
+
         .note {
-            background-color: var(--note-bg);
-            border-left: 4px solid var(--note-border);
-            padding: 12px 16px;
+            background-color: rgba(255, 180, 84, 0.03);
+            border-left: 4px solid var(--cmd-yellow);
+            padding: 14px 18px;
             border-radius: 0 6px 6px 0;
-            margin: 15px 0;
+            margin: 20px 0;
         }
 
         .note p {
             margin: 0;
-            font-size: 0.95rem;
-        }
-
-        ol {
-            padding-left: 20px;
-            margin: 10px 0;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: var(--border-color);
-            margin: 30px 0;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h1>🎮 Guía de Instalación y Optimización de Wine para Warcraft III en Archcraft</h1>
-    <p>Guía paso a paso desde cero absoluto para configurar una botella de Wine de 32 bits optimizada para el launcher de Atinad, solucionando de raíz los problemas de precisión y retraso del mouse.</p>
-    
-    <hr>
-
-    <h2>1️⃣ Activar los 32 bits (Multilib)</h2>
-    <p>Abre la configuración de pacman para permitir repositorios de 32 bits necesarios para Wine:</p>
-    <pre><code>sudo nano /etc/pacman.conf</code></pre>
-    <div class="note">
-        <p>💡 <strong>Nota:</strong> Baja con las flechas del teclado, bórrales el símbolo <code>#</code> a la línea <code>[multilib]</code> y a la línea de abajo <code>Include = /etc/pacman.d/mirrorlist</code>. Guarda presionando <code>Ctrl + O</code> (Enter) y sal con <code>Ctrl + X</code>.</p>
-    </div>
-
-    <h2>2️⃣ Actualizar el sistema completo</h2>
-    <p>Sincroniza los nuevos repositorios y aplica los cambios:</p>
-    <pre><code>sudo pacman -Syu</code></pre>
-
-    <h2>3️⃣ Instalar Wine, Winetricks y componentes</h2>
-    <p>Instala el motor de Wine junto a las herramientas de desempaquetado de Microsoft:</p>
-    <pre><code>sudo pacman -S wine winetricks cabextract wine-mono wine-gecko</code></pre>
-
-    <h2>4️⃣ Crear la base de Wine en 32 bits</h2>
-    <p>Fuerza al sistema a generar la botella por defecto en entorno de 32 bits para máxima compatibilidad con juegos clásicos:</p>
-    <pre><code>export WINEARCH=win32 && winecfg</code></pre>
-    <div class="note">
-        <p>💡 <strong>Nota:</strong> En cuanto veas aparecer la ventana visual de configuración de Wine en tu pantalla, simplemente ciérrala. Esto concluirá el proceso de creación en la terminal de forma correcta.</p>
-    </div>
-
-    <h2>5️⃣ Instalar Fuentes, DirectX 9 y .NET 4.0 (Modo Silencioso)</h2>
-    <p>Instala las librerías necesarias sin asistentes ni pantallas emergentes molestas:</p>
-    <pre><code>winetricks -q corefonts && winetricks -q d3dx9 && winetricks -q dotnet40</code></pre>
-    <div class="note">
-        <p>⏳ <strong>Nota:</strong> El componente de .NET Framework 4.0 es pesado y tardará varios minutos. Deja que la terminal trabaje tranquila y no la cierres hasta que vuelva a aparecer tu usuario de comandos.</p>
-    </div>
-
-    <h2>6️⃣ Configurar el Mouse en Modo Nativo</h2>
-    <p>Abre el panel de control de Wine para inyectar la librería directa de hardware:</p>
-    <pre><code>winecfg</code></pre>
-    <p><strong>Pasos a seguir en la interfaz:</strong></p>
-    <ol>
-        <li>Entra en la pestaña llamada <strong>Librerías</strong> (o <em>Libraries</em>).</li>
-        <li>En la casilla <em>"Nueva sustitución para la librería"</em>, escribe: <code>dinput8</code></li>
-        <li>Haz clic en el botón <strong>Añadir</strong>.</li>
-        <li>Busca <code>dinput8</code> en la lista inferior, selecciónala y dale a <strong>Editar</strong>.</li>
-        <li>Marca la casilla que dice <strong>Nativa (Windows)</strong> y pulsa Aceptar.</li>
-        <li>Dale al botón <strong>Aplicar</strong> y finalmente a <strong>Aceptar</strong> para cerrar el panel.</li>
-    </ol>
-
-    <hr>
-
-    <h2>🛠️ Comandos Útiles de Mantenimiento</h2>
-    <p><strong>Abrir el Registro de Windows (Para calibrar la sensibilidad o MouseSensitivity):</strong></p>
-    <pre><code>wine regedit</code></pre>
-    <p><strong>Abrir el panel visual gráfico de Winetricks:</strong></p>
-    <pre><code>winetricks --gui</code></pre>
-
-    <hr>
-
-    <h2>🚀 Comando Definitivo para Lanzar el Juego</h2>
-    <p>Para jugar con el cursor 1 a 1 y completamente anclado a la resolución interna, sitúate en la carpeta de tu launcher mediante la terminal y ejecuta:</p>
-    <pre><code>WINE_MOUSE_WARP_OVERRIDE=force wine ./Atinad.exe</code></pre>
-    
-    <div class="note" style="border-left-color: #2ea043; background-color: rgba(46, 160, 67, 0.1);">
-        <p>⚙️ <strong>Optimización recomendada:</strong> Asegúrate de marcar el <strong>Modo DirectX 9</strong> en el propio menú del launcher de Atinad. Al combinarlo con esta configuración, lograrás el rendimiento gráfico más fluido y estable en Linux.</p>
-    <title>Guía de Instalación y Optimización de LibreWolf en Archcraft</title>
-    <style>
-        :root {
-            --bg-color: #0f141c;
-            --container-bg: #171d26;
-            --text-color: #e1e7ef;
-            --accent-color: #38bdf8;
-            --accent-hover: #7dd3fc;
-            --code-bg: #0b0f19;
-            --border-color: #2d3748;
-            --comment-color: #6b7280;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 750px;
-            margin: 0 auto;
-            background: var(--container-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-        }
-
-        h1 {
-            color: var(--accent-color);
-            font-size: 24px;
-            margin-top: 0;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 12px;
-        }
-
-        h2 {
-            color: var(--accent-hover);
-            font-size: 18px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        p {
             font-size: 14px;
-            color: #94a3b8;
-            margin-bottom: 12px;
+            color: #abb2bf;
         }
 
-        .step-num {
-            background: var(--accent-color);
-            color: var(--bg-color);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 12px;
-            margin-right: 10px;
+        .note strong {
+            color: var(--cmd-yellow);
         }
 
-        code {
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-            background-color: var(--code-bg);
-            color: #f1f5f9;
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-size: 13px;
+        .note-success {
+            background-color: rgba(46, 204, 113, 0.03);
+            border-left: 4px solid var(--cmd-green);
         }
 
-        pre {
-            background-color: var(--code-bg);
-            padding: 16px;
-            border-radius: 8px;
-            overflow-x: auto;
-            border: 1px solid var(--border-color);
-            margin: 10px 0 20px 0;
-        }
-
-        pre code {
-            padding: 0;
-            background: none;
-            font-size: 13px;
-            color: #f8fafc;
+        .note-success strong {
+            color: var(--cmd-green);
         }
 
         .comment {
-            color: var(--comment-color);
+            color: var(--text-muted);
             font-style: italic;
         }
 
-        ul {
-            padding-left: 20px;
-            margin: 10px 0;
+        ul, ol {
+            padding-left: 25px;
+            margin: 15px 0;
         }
 
         li {
-            font-size: 14px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-size: 14.5px;
             color: #cbd5e1;
         }
 
@@ -291,55 +153,121 @@
             color: #ffffff;
         }
 
-        .note {
-            background-color: rgba(56, 189, 248, 0.1);
-            border-left: 4px solid var(--accent-color);
-            padding: 12px;
-            border-radius: 4px;
-            margin: 20px 0;
-            font-size: 13.5px;
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(255,74,90,0.5), rgba(0,0,0,0));
+            margin: 45px 0;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Instalación Limpia de LibreWolf en Archcraft</h1>
-    <p>Esta guía contiene el orden exacto de comandos necesarios para instalar LibreWolf usando <code>yay</code> sin que aparezcan errores de dependencias o firmas PGP, manteniendo el sistema ligero y solucionando el selector de archivos interno.</p>
+    <!-- ================= GUÍA 1: WINE ================= -->
+    <div class="container">
+        <h1>🎮 Guía de Instalación y Optimización de Wine para Warcraft III en Archcraft</h1>
+        <p>Guía paso a paso desde cero absoluto para configurar una botella de Wine de 32 bits optimizada para el launcher de Atinad, solucionando de raíz los problemas de precisión y retraso del mouse.</p>
+        
+        <hr>
 
-    <h2><span class="step-num">1</span>Preparar el Entorno (Evitar Errores de Compilación)</h2>
-    <p>Instala las herramientas de desarrollo esenciales de Arch (evita el error de <code>debugedit</code>) y actualiza los repositorios:</p>
-    <pre><code>sudo pacman -S base-devel --needed && yay -Syu</code></pre>
+        <h2><span>1️⃣</span> Activar los 32 bits (Multilib)</h2>
+        <p>Abre la configuración de pacman para permitir repositorios de 32 bits necesarios para Wine:</p>
+        <pre><code><span class="c-sudo">sudo</span> nano /etc/pacman.conf</code></pre>
+        <div class="note">
+            <p>💡 <strong>Nota:</strong> Baja con las flechas del teclado, bórrales el símbolo <code style="color: var(--cmd-red);">#</code> a la línea <code>[multilib]</code> y a la línea de abajo <code>Include = /etc/pacman.d/mirrorlist</code>. Guarda presionando <code>Ctrl + O</code> (Enter) y sal con <code>Ctrl + X</code>.</p>
+        </div>
 
-    <h2><span class="step-num">2</span>Importar la Clave PGP de LibreWolf</h2>
-    <p>Descarga e importa la clave de seguridad del desarrollador directamente desde su servidor oficial (evita el error de firmas fallidas):</p>
-    <pre><code>curl -sS https://librewolf.net/keys/librewolf.asc | gpg --import</code></pre>
+        <h2><span>2️⃣</span> Actualizar el sistema completo</h2>
+        <p>Sincroniza los nuevos repositorios y aplica los cambios:</p>
+        <pre><code><span class="c-sudo">sudo</span> pacman <span class="c-param">-Syu</span></code></pre>
 
-    <h2><span class="step-num">3</span>Instalar LibreWolf</h2>
-    <p>Ejecuta la instalación del navegador desde el AUR de manera limpia:</p>
-    <pre><code>yay -S librewolf</code></pre>
+        <h2><span>3️⃣</span> Instalar Wine, Winetricks y componentes</h2>
+        <p>Instala el motor de Wine junto a las herramientas de desempaquetado de Microsoft:</p>
+        <pre><code><span class="c-sudo">sudo</span> pacman <span class="c-param">-S</span> <span class="c-pkg">wine winetricks cabextract wine-mono wine-gecko</span></code></pre>
 
-    <h2><span class="step-num">4</span>Configuración Interna en <code>about:config</code></h2>
-    <p>Una vez instalado, abre LibreWolf, escribe <strong><code>about:config</code></strong> en la barra de direcciones, acepta la advertencia y aplica los siguientes cambios para solucionar tus preferencias:</p>
+        <h2><span>4️⃣</span> Crear la base de Wine en 32 bits</h2>
+        <p>Fuerza al sistema a generar la botella por defecto en entorno de 32 bits para máxima compatibilidad con juegos clásicos:</p>
+        <pre><code><span class="c-env">export WINEARCH=win32</span> && winecfg</code></pre>
+        <div class="note">
+            <p>💡 <strong>Nota:</strong> En cuanto veas aparecer la ventana visual de configuración de Wine en tu pantalla, simplemente ciérrala. Esto concluirá el proceso de creación en la terminal de forma correcta.</p>
+        </div>
 
-    <ul>
-        <li>
-            <strong>Activar Modo Oscuro y Solucionar Descargas:</strong><br>
-            Busca <code>privacy.resistFingerprinting</code> y cámbialo a <code>false</code>.<br>
-            <span class="comment">(Esto deshace la protección estricta que bloquea las ventanas de carpetas del sistema y te permite usar las extensiones o temas para forzar el Modo Oscuro nativo sin restricciones).</span>
-        </li>
-        <li style="margin-top: 15px;">
-            <strong>Solución de Apertura de Carpetas (Ligero / Sin Servicios):</strong><br>
-            Busca <code>widget.use-xdg-desktop-portal.file-picker</code> y asegúrate de dejarlo en <code>0</code>.<br>
-            <span class="comment">(Obliga a LibreWolf a usar su selector interno súper liviano sin levantar servicios en segundo plano ni consumir RAM extra).</span>
-        </li>
-    </ul>
+        <h2><span>5️⃣</span> Instalar Fuentes, DirectX 9 y .NET 4.0 (Modo Silencioso)</h2>
+        <p>Instala las librerías necesarias sin asistentes ni pantallas emergentes molestas:</p>
+        <pre><code>winetricks <span class="c-param">-q</span> <span class="c-pkg">corefonts</span> && winetricks <span class="c-param">-q</span> <span class="c-pkg">d3dx9</span> && winetricks <span class="c-param">-q</span> <span class="c-pkg">dotnet40</span></code></pre>
+        <div class="note">
+            <p>⏳ <strong>Nota:</strong> El componente de .NET Framework 4.0 es pesado y tardará varios minutos. Deja que la terminal trabaje tranquila y no la cierres hasta que vuelva a aparecer tu usuario de comandos.</p>
+        </div>
 
-    <div class="note">
-        <strong>¡Listo!</strong> Siguiendo este orden estricto, el navegador se instalará de una sola vez, abrirá la ventana para examinar/guardar tus descargas sin problemas y mantendrá tu Archcraft optimizado y ligero.
+        <h2><span>6️⃣</span> Configurar el Mouse en Modo Nativo</h2>
+        <p>Abre el panel de control de Wine para inyectar la librería directa de hardware:</p>
+        <pre><code>winecfg</code></pre>
+        <p><strong>Pasos a seguir en la interfaz:</strong></p>
+        <ol>
+            <li>Entra en la pestaña llamada <strong style="color: var(--cmd-yellow);">Librerías</strong> (o <em>Libraries</em>).</li>
+            <li>En la casilla <em>"Nueva sustitución para la librería"</em>, escribe: <code>dinput8</code></li>
+            <li>Haz clic en el botón <strong>Añadir</strong>.</li>
+            <li>Busca <code>dinput8</code> en la lista inferior, selecciónala y dale a <strong>Editar</strong>.</li>
+            <li>Marca la casilla que dice <strong style="color: var(--cmd-green);">Nativa (Windows)</strong> y pulsa Aceptar.</li>
+            <li>Dale al botón <strong>Aplicar</strong> y finalmente a <strong>Aceptar</strong> para cerrar el panel.</li>
+        </ol>
+
+        <hr>
+
+        <h2>🛠️ Comandos Útiles de Mantenimiento</h2>
+        <p><strong>Abrir el Registro de Windows (Para calibrar la sensibilidad o MouseSensitivity):</strong></p>
+        <pre><code>wine regedit</code></pre>
+        <p><strong>Abrir el panel visual gráfico de Winetricks:</strong></p>
+        <pre><code>winetricks <span class="c-param">--gui</span></code></pre>
+
+        <hr>
+
+        <h2>🚀 Comando Definitivo para Lanzar el Juego</h2>
+        <p>Para jugar con el cursor 1 a 1 y completamente anclado a la resolución interna, sitúate en la carpeta de tu launcher mediante la terminal y ejecuta:</p>
+        <pre><code><span class="c-env">WINE_MOUSE_WARP_OVERRIDE=force</span> wine ./Atinad.exe</code></pre>
+        
+        <div class="note note-success">
+            <p>⚙️ <strong>Optimización recomendada:</strong> Asegúrate de marcar el <strong>Modo DirectX 9</strong> en el propio menú del launcher de Atinad. Al combinarlo con esta configuración, lograrás el rendimiento gráfico más fluido y estable en Linux.</p>
+        </div>
     </div>
+
+    <!-- ================= GUÍA 2: LIBREWOLF ================= -->
+    <div class="container">
+        <h1 style="color: var(--cmd-blue);">🦊 Instalación Limpia de LibreWolf en Archcraft</h1>
+        <p>Esta guía contiene el orden exacto de comandos necesarios para instalar LibreWolf usando <code>yay</code> sin que aparezcan errores de dependencias o firmas PGP, manteniendo el sistema ligero y solucionando el selector de archivos interno.</p>
+
+        <h2><span class="step-num">1</span>Preparar el Entorno (Evitar Errores de Compilación)</h2>
+        <p>Instala las herramientas de desarrollo esenciales de Arch (evita el error de <code>debugedit</code>) y actualiza los repositorios:</p>
+        <pre><code><span class="c-sudo">sudo</span> pacman <span class="c-param">-S</span> base-devel <span class="c-param">--needed</span> && yay <span class="c-param">-Syu</span></code></pre>
+
+        <h2><span class="step-num">2</span>Importar la Clave PGP de LibreWolf</h2>
+        <p>Descarga e importa la clave de seguridad del desarrollador directamente desde su servidor oficial (evita el error de firmas fallidas):</p>
+        <pre><code>curl <span class="c-param">-sS</span> <span class="c-url">https://librewolf.net/keys/librewolf.asc</span> | gpg <span class="c-param">--import</span></code></pre>
+
+        <h2><span class="step-num">3</span>Instalar LibreWolf</h2>
+        <p>Ejecuta la instalación del navegador desde el AUR de manera limpia:</p>
+        <pre><code>yay <span class="c-param">-S</span> <span class="c-pkg">librewolf</span></code></pre>
+
+        <h2><span class="step-num">4</span>Configuración Interna en <code>about:config</code></h2>
+        <p>Una vez instalado, abre LibreWolf, escribe <strong style="color: var(--cmd-red);"><code>about:config</code></strong> en la barra de direcciones, acepta la advertencia y aplica los siguientes cambios para solucionar tus preferencias:</p>
+
+        <ul>
+            <li>
+                <strong style="color: var(--cmd-yellow);">Activar Modo Oscuro y Solucionar Descargas:</strong><br>
+                Busca <code>privacy.resistFingerprinting</code> y cámbialo a <span class="c-sudo">false</span>.<br>
+                <span class="comment">// Esto deshace la protección estricta que bloquea las ventanas de carpetas del sistema y te permite usar las extensiones o temas para forzar el Modo Oscuro nativo sin restricciones.</span>
+            </li>
+            <li style="margin-top: 15px;">
+                <strong style="color: var(--cmd-yellow);">Solución de Apertura de Carpetas (Ligero / Sin Servicios):</strong><br>
+                Busca <code>widget.use-xdg-desktop-portal.file-picker</code> y asegúrate de dejarlo en <span class="c-env">0</span>.<br>
+                <span class="comment">// Obliga a LibreWolf a usar su selector interno súper liviano sin levantar servicios en segundo plano ni consumir RAM extra.</span>
+            </li>
+        </ul>
+
+        <div class="note note-success">
+            <strong>¡Listo!</strong> Siguiendo este orden estricto, el navegador se instalará de una sola vez, abrirá la ventana para examinar/guardar tus descargas sin problemas y mantendrá tu Archcraft optimizado y ligero.
+        </div>
     </div>
-</div>
 
 </body>
 </html>

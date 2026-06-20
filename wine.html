@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimización de Wine para Warcraft III en Archcraft</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --container-bg: #161b22;
+            --text-color: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-color: #58a6ff;
+            --border-color: #30363d;
+            --code-bg: #010409;
+            --note-bg: rgba(56, 139, 253, 0.1);
+            --note-border: #388bfd;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            color: #ffffff;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, SF Pro Mono, Menlo, Monaco, Consolas, monospace;
+            background-color: var(--code-bg);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 85%;
+            color: #ff7b72;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin: 15px 0;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            font-size: 90%;
+            color: #79c0ff;
+        }
+
+        .note {
+            background-color: var(--note-bg);
+            border-left: 4px solid var(--note-border);
+            padding: 12px 16px;
+            border-radius: 0 6px 6px 0;
+            margin: 15px 0;
+        }
+
+        .note p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        ol {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎮 Guía de Instalación y Optimización de Wine para Warcraft III en Archcraft</h1>
+    <p>Guía paso a paso desde cero absoluto para configurar una botella de Wine de 32 bits optimizada para el launcher de Atinad, solucionando de raíz los problemas de precisión y retraso del mouse.</p>
+    
+    <hr>
+
+    <h2>1️⃣ Activar los 32 bits (Multilib)</h2>
+    <p>Abre la configuración de pacman para permitir repositorios de 32 bits necesarios para Wine:</p>
+    <pre><code>sudo nano /etc/pacman.conf</code></pre>
+    <div class="note">
+        <p>💡 <strong>Nota:</strong> Baja con las flechas del teclado, bórrales el símbolo <code>#</code> a la línea <code>[multilib]</code> y a la línea de abajo <code>Include = /etc/pacman.d/mirrorlist</code>. Guarda presionando <code>Ctrl + O</code> (Enter) y sal con <code>Ctrl + X</code>.</p>
+    </div>
+
+    <h2>2️⃣ Actualizar el sistema completo</h2>
+    <p>Sincroniza los nuevos repositorios y aplica los cambios:</p>
+    <pre><code>sudo pacman -Syu</code></pre>
+
+    <h2>3️⃣ Instalar Wine, Winetricks y componentes</h2>
+    <p>Instala el motor de Wine junto a las herramientas de desempaquetado de Microsoft:</p>
+    <pre><code>sudo pacman -S wine winetricks cabextract wine-mono wine-gecko</code></pre>
+
+    <h2>4️⃣ Crear la base de Wine en 32 bits</h2>
+    <p>Fuerza al sistema a generar la botella por defecto en entorno de 32 bits para máxima compatibilidad con juegos clásicos:</p>
+    <pre><code>export WINEARCH=win32 && winecfg</code></pre>
+    <div class="note">
+        <p>💡 <strong>Nota:</strong> En cuanto veas aparecer la ventana visual de configuración de Wine en tu pantalla, simplemente ciérrala. Esto concluirá el proceso de creación en la terminal de forma correcta.</p>
+    </div>
+
+    <h2>5️⃣ Instalar Fuentes, DirectX 9 y .NET 4.0 (Modo Silencioso)</h2>
+    <p>Instala las librerías necesarias sin asistentes ni pantallas emergentes molestas:</p>
+    <pre><code>winetricks -q corefonts && winetricks -q d3dx9 && winetricks -q dotnet40</code></pre>
+    <div class="note">
+        <p>⏳ <strong>Nota:</strong> El componente de .NET Framework 4.0 es pesado y tardará varios minutos. Deja que la terminal trabaje tranquila y no la cierres hasta que vuelva a aparecer tu usuario de comandos.</p>
+    </div>
+
+    <h2>6️⃣ Configurar el Mouse en Modo Nativo</h2>
+    <p>Abre el panel de control de Wine para inyectar la librería directa de hardware:</p>
+    <pre><code>winecfg</code></pre>
+    <p><strong>Pasos a seguir en la interfaz:</strong></p>
+    <ol>
+        <li>Entra en la pestaña llamada <strong>Librerías</strong> (o <em>Libraries</em>).</li>
+        <li>En la casilla <em>"Nueva sustitución para la librería"</em>, escribe: <code>dinput8</code></li>
+        <li>Haz clic en el botón <strong>Añadir</strong>.</li>
+        <li>Busca <code>dinput8</code> en la lista inferior, selecciónala y dale a <strong>Editar</strong>.</li>
+        <li>Marca la casilla que dice <strong>Nativa (Windows)</strong> y pulsa Aceptar.</li>
+        <li>Dale al botón <strong>Aplicar</strong> y finalmente a <strong>Aceptar</strong> para cerrar el panel.</li>
+    </ol>
+
+    <hr>
+
+    <h2>🛠️ Comandos Útiles de Mantenimiento</h2>
+    <p><strong>Abrir el Registro de Windows (Para calibrar la sensibilidad o MouseSensitivity):</strong></p>
+    <pre><code>wine regedit</code></pre>
+    <p><strong>Abrir el panel visual gráfico de Winetricks:</strong></p>
+    <pre><code>winetricks --gui</code></pre>
+
+    <hr>
+
+    <h2>🚀 Comando Definitivo para Lanzar el Juego</h2>
+    <p>Para jugar con el cursor 1 a 1 y completamente anclado a la resolución interna, sitúate en la carpeta de tu launcher mediante la terminal y ejecuta:</p>
+    <pre><code>WINE_MOUSE_WARP_OVERRIDE=force wine ./Atinad.exe</code></pre>
+    
+    <div class="note" style="border-left-color: #2ea043; background-color: rgba(46, 160, 67, 0.1);">
+        <p>⚙️ <strong>Optimización recomendada:</strong> Asegúrate de marcar el <strong>Modo DirectX 9</strong> en el propio menú del launcher de Atinad. Al combinarlo con esta configuración, lograrás el rendimiento gráfico más fluido y estable en Linux.</p>
+    </div>
+</div>
+
+</body>
+</html>

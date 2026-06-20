@@ -94,47 +94,99 @@
 
 
 
+Markdown
 
-</section>
+# 🎮 Guía de Instalación y Optimización de Wine para Warcraft III en Archcraft
 
-<!-- Projects Section -->
-<hr class="uk-margin-xlarge-left uk-margin-xlarge-right">
-<section id="projects" class="uk-margin-small-left uk-margin-small-right uk-margin-xlarge-top uk-margin-xlarge-bottom">
-<h3 class="uk-margin-xlarge-left uk-light">Projects</h3>
-<p class="uk-margin-xlarge-left">Projects that i've been working on</p>
+Guía paso a paso desde cero absoluto para configurar una botella de Wine de 32 bits optimizada para el launcher de Atinad, solucionando los problemas de precisión del mouse.
 
-<div class="uk-margin-xlarge-left uk-margin-xlarge-right">
-    <!-- Change all of this to ur projects -->
-    <div class="uk-margin uk-card uk-card-secondary uk-card-body ">
-        <h4>Project Name</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <a class="uk-button-text uk-text-decoration-none" href="">
-            <span uk-icon="icon: link">
-            </span> Website Link </a>
-        </div>
-        <div class="uk-margin uk-card uk-card-secondary uk-card-body ">
-            <h4>Project Name</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <a class="uk-button-text uk-text-decoration-none" href="">
-                <span uk-icon="icon: link">
-                </span> Website Link </a>
-            </div></div>
+---
+
+### 1️⃣ Activar los 32 bits (Multilib)
+Abre la configuración de pacman para permitir paquetes de 32 bits:
+```bash
+sudo nano /etc/pacman.conf
+
+    💡 Nota: Baja con las flechas, bórrales el símbolo # a la línea [multilib] y a la línea de abajo Include = /etc/pacman.d/mirrorlist. Guarda con Ctrl + O (Enter) y sal con Ctrl + X.
+
+2️⃣ Actualizar el sistema completo
+
+Aplica los cambios en los repositorios:
+Bash
+
+sudo pacman -Syu
+
+3️⃣ Instalar Wine, Winetricks y componentes
+
+Instala el motor de Wine y las herramientas necesarias de Microsoft:
+Bash
+
+sudo pacman -S wine winetricks cabextract wine-mono wine-gecko
+
+4️⃣ Crear la base de Wine en 32 bits
+
+Fuerza a que la botella por defecto funcione en modo de 32 bits para máxima compatibilidad:
+Bash
+
+export WINEARCH=win32 && winecfg
+
+    💡 Nota: En cuanto se abra la ventana de configuración de Wine en la pantalla, simplemente ciérrala para que termine el proceso en la terminal.
+
+5️⃣ Instalar Fuentes, DirectX 9 y .NET 4.0 (Modo Silencioso)
+
+Copia y pega este comando para instalar los componentes base sin ventanas emergentes:
+Bash
+
+winetricks -q corefonts && winetricks -q d3dx9 && winetricks -q dotnet40
+
+    ⏳ Nota: .NET Framework 4.0 puede tardar varios minutos en instalarse. No cierres la terminal hasta que termine por completo y te deje escribir de nuevo.
+
+6️⃣ Configurar el Mouse en Modo Nativo
+
+Abre el panel de configuración de Wine:
+Bash
+
+winecfg
+
+Pasos visuales a seguir:
+
+    Ve a la pestaña Librerías (o Libraries).
+
+    En el cuadro Nueva sustitución para la librería, escribe: dinput8
+
+    Haz clic en el botón Añadir.
+
+    Selecciónala en la lista de abajo y haz clic en Editar.
+
+    Marca la opción Nativa (Windows).
+
+    Haz clic en Aplicar y luego en Aceptar.
+
+🛠️ Comandos Útiles de Mantenimiento
+
+    Abrir el Registro de Windows (Para cambiar la sensibilidad/MouseSensitivity):
+
+Bash
+
+  wine regedit
+
+    Abrir la interfaz gráfica de Winetricks:
+
+Bash
+
+  winetricks --gui
+
+🚀 Comando Definitivo para Lanzar el Juego
+
+Para jugar con el cursor completamente bloqueado a la pantalla y con precisión 1 a 1, navega hasta la carpeta de tu juego en la terminal y ejecuta:
+Bash
+
+WINE_MOUSE_WARP_OVERRIDE=force wine ./Atinad.exe
+
+    ⚙️ Optimización final: Recuerda entrar a las opciones del launcher de Atinad y activar el Modo DirectX 9 para obtener el mejor rendimiento y fluidez de FPS en Linux.
 
 
-
-    <br>
-
-
-</section>
-<hr class="uk-margin-xlarge-left uk-margin-xlarge-right">
-</div>
-<!-- Projects Section Ends -->
-    
-</body>
-
-</html>
-
-
+¡Ahí lo tienes, crack! Quedó con el diseño web perfecto para que luzca profesional en tu perfil o repositorio de GitHub.
 
 
 
